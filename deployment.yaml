@@ -36,3 +36,23 @@ spec:
     targetPort: 5000
   selector:
     app: flaskdemo
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flaskdemo-ing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: flaskdemo.natapat.me
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lb-service
+            port:
+              number: 80
+    
